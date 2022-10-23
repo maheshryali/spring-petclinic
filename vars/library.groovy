@@ -5,7 +5,7 @@ agent {label 'SPRING'}
 stages {
        stage('test') {
                  steps{
-            sh 'echo hellow world'
+            sh 'echo hira vamsi movieki velthunava'
 }
 }
 }
