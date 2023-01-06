@@ -11,14 +11,14 @@ pipeline {
                 mail subject: 'build started',
                   body: 'build started',
                   to: 'maheshmech9999@gmail.com'
-                git branch: ${params.BRANCH},
+                git branch: "${params.BRANCH}",
                        url: 'https://github.com/maheshryali/spring-petclinic.git'
             }
         }
         stage('build') {
             steps {
                 sh """
-                /opt/apache-maven-3.8.7/bin/mvn ${params.MAVEN_BUILD}
+                /opt/apache-maven-3.8.7/bin/mvn "${params.MAVEN_BUILD}"
                 """
             }  
         }
