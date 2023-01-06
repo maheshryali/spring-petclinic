@@ -3,7 +3,7 @@ pipeline {
     triggers { pollSCM('* * * * *') }
     parameters { 
         choice(name: 'BRANCH', choices: ['main', 'dev', 'qa'], description: 'this is for selection of branch')
-        string(name: 'MAVEN_BUILD', defaultValue: 'package', choices: ['clean package', 'clean install', 'clean deploy'])
+        string(name: 'MAVEN_BUILD', defaultValue: 'package',  description: 'write the goal')
         }
     stages {
         stage('git') {
@@ -69,7 +69,7 @@ pipeline {
                 body: 'Build Failure',
                 to: 'maheshmech9999@gmail.com'
         }
-        sucess {
+        success {
             junit '**/surefire-reports/*.xml'
         }
 
