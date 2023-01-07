@@ -22,7 +22,7 @@ pipeline {
         stage('sonar_scan') {
             steps {
                 withSonarQubeEnv ('for_pipeline') {
-                    sh '/opt/apache-maven-3.8.7/bin/mvn clean package sonar:sonar'
+                    sh 'mvn clean package sonar:sonar'
                 }
             }
         }
