@@ -7,26 +7,30 @@ pipeline {
         }
     stages {
         stage('git') {
+            post {
+                always {
+                    mail subject: 'build started',
+                         body: 'build started',
+                         to: 'maheshmech9999@gmail.com'
+                }
+            }
             steps {
-                mail subject: 'build started',
-                  body: 'build started',
-                  to: 'maheshmech9999@gmail.com'
                 git branch: "${params.BRANCH}",
                        url: 'https://github.com/maheshryali/spring-petclinic.git'
             }
         }
-        stage('build') {
+        stage('sonar_scan') {
             steps {
-                sh """
-                /opt/apache-maven-3.8.7/bin/mvn "${params.MAVEN_BUILD}"
-                """
-            }  
+                withSonarQubeEnv ('scan') {
+                    sh 'mvn clean package sonar:sonar'
+                }
+            }
         }
         stage('artifactory') {
             steps {
                 rtMavenDeployer (
-                    id: "MAVEN_DEPLOYER",
-                    serverId: "jfrog_artifact",
+                    id: "jfrog_artifact",
+                    serverId: "jfrogproject123",
                     releaseRepo: "new_jenkins-libs-release",
                     snapshotRepo: "new_jenkins-libs-snapshot"
                 )
@@ -38,7 +42,7 @@ pipeline {
                     tool: 'mvn-3.8.7',
                     pom: 'pom.xml',
                     goals: 'clean install',
-                    deployerId: 'MAVEN_DEPLOYER'
+                    deployerId: 'jfrogproject123'
                 )
             }
         }
@@ -47,13 +51,6 @@ pipeline {
                 rtPublishBuildInfo (
                     serverId: "jfrog_artifact"
                 )
-            }
-        }
-        stage('sonar_scan') {
-            steps {
-                withSonarQubeEnv ('scan') {
-                    sh 'mvn clean package sonar:sonar'
-                }
             }
         }
     }
