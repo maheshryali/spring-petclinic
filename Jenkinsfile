@@ -14,7 +14,7 @@ pipeline {
         }
         stage('sonar_scan') {
             steps {
-                withSonarQubeEnv('for pipeline') {
+                withSonarQubeEnv('for pipelines') {
                     sh 'mvn clean package sonar:sonar'
                 }
             }
