@@ -37,7 +37,7 @@ pipeline {
                 rtMavenRun (
                     tool: 'mvn-3.8.7',
                     pom: 'pom.xml',
-                    goals: 'clean package',
+                    goals: 'clean install',
                     deployerId: 'MAVEN_DEPLOYER'
                 )
             }
