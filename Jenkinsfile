@@ -7,13 +7,6 @@ pipeline {
         }
     stages {
         stage('git') {
-            post {
-                always {
-                    mail subject: 'build started',
-                         body: 'build started',
-                         to: 'maheshmech9999@gmail.com'
-                }
-            }
             steps {
                 git branch: "${params.BRANCH}",
                        url: 'https://github.com/maheshryali/spring-petclinic.git'
